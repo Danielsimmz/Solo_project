@@ -11,13 +11,24 @@ class DetailsPage extends Component {
     this.props.dispatch({ type: "FETCH_VIDEOSS" });
   }
 
+  componentWillUnmount() {
+    // use component will unmount to store info for page so that when you come back to page the info reloads with did mount
+    this.props.dispatch({ type: "FETCH_VIDEOSS" });
+  }
+
+  //this function loops through the array of videos and finds the ones that match with the category that was clicked
   mountVideos = () => {
     for (let object of this.props.video) {
       if (this.props.category.name === object.name) {
         console.log(object);
 
         return (
-          <ReactPlayer width="480px" height="360px" controls url={object.videos} />
+          <ReactPlayer
+            width="480px"
+            height="360px"
+            controls
+            url={object.videos}
+          />
         );
       }
     }
@@ -36,12 +47,15 @@ class DetailsPage extends Component {
           >
             Back to List
           </Button>
-          <h3>This is the Videos associated with Category: {this.props.category.name}</h3>
-            <p>{this.props.details.title}</p>
+          <h3>
+            This is the Videos associated with Category:{" "}
+            {this.props.category.name}
+          </h3>
+          <p>{this.props.details.title}</p>
 
-            <p>{this.props.details.description}</p>
-            <br />
-            <span id="video">{this.mountVideos()}</span>
+          <p>{this.props.details.description}</p>
+          <br />
+          <span id="video">{this.mountVideos()}</span>
         </div>
       </>
     );
