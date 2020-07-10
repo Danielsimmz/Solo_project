@@ -47,10 +47,21 @@ function* fetchVideos() {
   }
 }
 
+function* fetchVideoss() {
+  try {
+    const response = yield axios.get("/api/shelf/videoss");
+    yield put({ type: "SET_VIDEOSS", payload: response.data });
+    console.log("fetchVideos response.data", response.data);
+  } catch (error) {
+    console.log("error videos", error);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
   yield takeLatest('FETCH_GIFS', fetchGiphy);
   yield takeLatest("FETCH_VIDEOS", fetchVideos);
+  yield takeLatest("FETCH_VIDEOSS", fetchVideoss);
 }
 
 export default userSaga;

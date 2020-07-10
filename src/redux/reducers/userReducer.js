@@ -21,9 +21,29 @@ const videos = (state = [], action) => {
     }
 }
 
+const videoss = (state = [], action) => {
+  switch (action.type) {
+    case "SET_VIDEOS":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+const showcategory = (state = [], action) => {
+  switch (action.type) {
+    case "PUT_CATEGORY":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 // user will be on the redux state at:
 // state.user
 export default combineReducers({
   userReducer,
-  videos
+  videos,
+  showcategory,
+  videoss,
 });

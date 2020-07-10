@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import Axios from "axios";
+import { withRouter } from "react-router";
 
 // this could also be written with destructuring parameters as:
 // const UserPage = ({ user }) => (
@@ -27,6 +28,19 @@ class UserPage extends Component {
       })
       .catch((error) => console.log(error));
   };
+  showCategory = () => {
+    this.props.dispatch({
+      type: "PUT_CATEGORY",
+      payload: {
+        category: this.state.data.name
+      },
+    });
+    this.next();
+  };
+
+  next = () => {
+    this.props.history.push("/details"); //takes customer to next "page"
+  };
 
   render() {
     return (
@@ -37,30 +51,30 @@ class UserPage extends Component {
           <LogOutButton className="log-in" />
 
           <br />
-            {this.state.data.map((item, i) => (
-              <span key={i}>
-                <img
-                  style={{
-                    border: "1px solid black",
-                    borderRadius: "10px",
-                    boxShadow: "0px 25px 50px -25px rgba(0,0,0,0.75)",
-                  }}
-                  src={item.poster}
-                  alt={item.name}
-                ></img>
-                <br />
-                {item.name}
-                <button id={item.id} onClick={this.props.dispatch({ type: "FETCH_VIDEOS" })}>
-                  View
-                </button>
-                <br />
-                {/* <button
+          {this.state.data.map((item, i) => (
+            <span key={i}>
+              <img
+                style={{
+                  border: "1px solid black",
+                  borderRadius: "10px",
+                  boxShadow: "0px 25px 50px -25px rgba(0,0,0,0.75)",
+                }}
+                src={item.poster}
+                alt={item.name}
+              ></img>
+              <br />
+              {item.name}
+              <button id={item.id} onClick={this.showCategory}>
+                View
+              </button>
+              <br />
+              {/* <button
                 id={item.id}
                 onClick={() => this.setState({ isEditable: true })}
               >
                 Update
               </button> */}
-                {/* {this.state.isEditable ? (
+              {/* {this.state.isEditable ? (
                 <EditForm
                   updateImage={this.updateImage}
                   notEditable={() => this.setState({ isEditable: false })}
@@ -69,9 +83,8 @@ class UserPage extends Component {
               ) : (
                 <></>
               )} */}
-              </span>
-            ))}
-          
+            </span>
+          ))}
         </div>
       </>
     );
@@ -86,4 +99,4 @@ const mapStateToProps = state => ({
 });
 
 // this allows us to use <App /> in index.js
-export default connect(mapStateToProps)(UserPage);
+export default withRouter(connect(mapStateToProps)(UserPage));
